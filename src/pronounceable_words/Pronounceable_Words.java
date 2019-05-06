@@ -24,44 +24,31 @@ public class Pronounceable_Words  {
   
        
     public static void main(String[] args)throws FileNotFoundException{
-       Generator testing = new Generator();
-        
-       //Just a bunch of shit i was testing
-Random r = new Random();
-char a = (char)(r.nextInt(26) + 'a');
-char b = (char)(r.nextInt(26) + 'a');
-char c = (char)(r.nextInt(26) + 'a');
-char d = (char)(r.nextInt(26) + 'a');
-
-        System.out.println(c);
-        String test = "test";
-        
-        System.out.println(test.charAt(3));
-       
-        StringBuilder word = new StringBuilder();
-         for(int i =0; i<4;i++){
-             word.append(c);
-            
-       
-        }
-         //more testing shit
-         StringBuilder word2 = new StringBuilder();
-         word2.append(a);
-         word2.append(b);
-         word2.append(c);
-         word2.append(d);
-         String word2String = word2.toString();
-         
-         String randString = word.toString();
-         System.out.println(randString);
-         System.out.println(word2String);
+      //Testing stuff
          
          StringBuilder myName = new StringBuilder();
-            myName.append( "x");
             
-     //actual program
-        Units testscan = new Units();
-        testscan.scanUnitPair();
+            myName.append("aanblonda");
+            String test = "tester";
+     myName.replace(0,test.length() , test);
+     if(test.endsWith("ter")){
+        System.out.println("yerrrr");
+        System.exit(0);}
+        Units testscan = new Units(); 
+        Generator generator = new Generator();
+        generator.quicktest(myName);
+        System.exit(0);
+        generator.checkWord(myName);
+        
+        
+       
+       System.exit(0);
+        
+         
+      generator.testJOption();
+       
+        
+        
         
     }
 }

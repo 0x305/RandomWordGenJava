@@ -19,6 +19,8 @@ import java.util.ArrayList;
 public class Units {
     
     char[] vowels = new char[]{'a','e','i','o','u'};
+    ArrayList<UnitPairRules> unitPairs = new ArrayList<UnitPairRules>();
+   
     
     //scan each line from fiile for strings. then assign each to name of indexed in array list.
     //then scan for each boolean and assign each index the corresponding boolean
@@ -29,10 +31,11 @@ public class Units {
     
     public void scanUnitPair()throws FileNotFoundException {
         
+        
         File pairFile = new File ("UnitPairRules.txt"); 
         String encoding = "Cp1250"; //need to do this to make it ASCII
         
-        ArrayList<UnitPairRules> unitPairs = new ArrayList<UnitPairRules>();
+        
         //Declaring all the features of a unit pair that will be plugged into the list
         String combo;
         Boolean mustBegin = false;
@@ -105,6 +108,7 @@ else {
 }
         
     }
+    
     }
   
 
