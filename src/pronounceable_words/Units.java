@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Units {
     
     char[] vowels = new char[]{'a','e','i','o','u'};
-    ArrayList<UnitPairRules> unitPairs = new ArrayList<UnitPairRules>();
+    public static ArrayList<UnitPairRules> unitPairs = new ArrayList<UnitPairRules>();
    
     
     //scan each line from fiile for strings. then assign each to name of indexed in array list.

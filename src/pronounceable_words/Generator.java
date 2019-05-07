@@ -5,13 +5,11 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 import java.util.ArrayList;
 import java.io.FileNotFoundException;
-/**
- *
- */
+
+
 public class Generator    {
       
  Units units = new Units();
-
  
 
    /**
@@ -46,22 +44,26 @@ public class Generator    {
         
        
         return word;
-    }    
+    }
+
+    public void setConditions()throws FileNotFoundException{
+         units.scanUnitPair();
+    }
     
     //The plan is to generate a random word, then iterate through the unit array list
     //and see if the string contains any of the combos. From there, you will use all the booleans
     //from the indexed combo. Methods will be made to modify for each boolean and they will
     //be called if needed. The string will then be checked again and process will repeat. 
    
-    public void testJOption(){
+    public void testJOption()throws FileNotFoundException{
        //int wordLength = Integer.parseInt( JOptionPane.showInputDialog("Type word length"));
         
         
       StringBuilder testing = randomWord(7);
-  
-      quicktest(testing);
-      
-      
+       units.scanUnitPair();
+       
+        System.out.println(units.unitPairs.size());
+        System.exit(0);
        
        JOptionPane.showMessageDialog(null, testing );
        System.exit(0);
@@ -75,20 +77,19 @@ public class Generator    {
      * so we can pass the random word from the other methods that required StringBuilder.
      * Then each boolean is checked and its corresponding methods are called.
      */
-    public void checkWord(StringBuilder word)throws FileNotFoundException{
-         units.scanUnitPair();
-        ArrayList<UnitPairRules> unitRules = units.unitPairs;
+    public void checkWord(StringBuilder word){
+        
        
-        for(int i=0; i<unitRules.size();i++){
-            String wordCombo = unitRules.get(i).combo;
+        for(int i=0; i<units.unitPairs.size();i++){
+            String wordCombo = units.unitPairs.get(i).combo;
             
             if(word.toString().contains(wordCombo)){//StringBuilder doesnt have .contains() but we can use toString() to interpret it as a String first
-                if(unitRules.get(i).mustBegin == true){
+                if(units.unitPairs.get(i).mustBegin == true){
                     
                     modifyBegin(word,wordCombo);
                     
             }
-                if(unitRules.get(i).mustNotBegin==true){
+                if(units.unitPairs.get(i).mustNotBegin==true){
                     
                     modifyNotBegin(word,wordCombo);
                 }
@@ -96,14 +97,8 @@ public class Generator    {
             }
             
         }
+        System.out.println(word);
 }
-    
-    public void quicktest(StringBuilder word){
-        if(units.unitPairs.size()<5){
-        System.out.println("brooooo");
-        System.exit(0);
-    }
-    }
     
     
     /**
@@ -114,29 +109,26 @@ public class Generator    {
      * This method takes a word and a combo. Finds which index the combo is found, and removes
      * it from the word. Then, the combo is placed into the beginning of the word.
      * We must use StringBuilder because the .delete and .insert only works with stringBuilder
-     * @throws java.io.FileNotFoundException
+     * 
      */
-    public void modifyBegin(StringBuilder word, String combo) throws FileNotFoundException{
+    public void modifyBegin(StringBuilder word, String combo){
        //check if there is already a combo that is in first index
-       units.scanUnitPair();
-        ArrayList<UnitPairRules> unitRules = units.unitPairs;
-        
+       
         StringBuilder newRandomReplace = randomWord(combo.length());
         int start = word.indexOf(combo);
-        int end = word.lastIndexOf(combo);
-        Boolean keepCombo =false;
+        int end = start + combo.length();
+        Boolean keepCombo =true;
         
-        for(int i=0;i<unitRules.size();i++){
-            String currentCombo = unitRules.get(i).combo;
+        for(int i=0;i<units.unitPairs.size();i++){
+            String currentCombo = units.unitPairs.get(i).combo;
             //if there is already a mustBegin combo that begins the word, the other combo will just be replaced
             //with another random string. This prevents recursion of fighting for who begins word
-            if((unitRules.get(i).mustBegin==true)&&(word.indexOf(currentCombo)==0)&&(currentCombo!=combo)){
+            if((units.unitPairs.get(i).mustBegin==true)&&(word.indexOf(currentCombo)==0)&&(currentCombo!=combo)){
                 word.replace(start, end, newRandomReplace.toString());
-                
+                keepCombo=false;
             }
-            else{
-                keepCombo = true;
-            }
+            
+            
             if(keepCombo== true){
                 word.delete(start, end);//remove where the combo was
                 word.insert(0, combo);//add combo to beginning
@@ -152,11 +144,11 @@ public class Generator    {
      *
      * @param word
      * @param combo
-     * @throws FileNotFoundException 
+     * 
      * This method will replace the beginning of the word with a new random combination.
      * Notice how we need to use toString to interpret the given stringBuilder as a string
      */
-    public void modifyNotBegin(StringBuilder word, String combo)throws FileNotFoundException{
+    public void modifyNotBegin(StringBuilder word, String combo){
         
         if(word.indexOf(combo)==0){
             StringBuilder newRandomReplace = randomWord(combo.length());
@@ -168,30 +160,26 @@ public class Generator    {
      * 
      * @param word
      * @param combo
-     * @throws FileNotFoundException 
+     * 
      * This method will do the same thing as modify beginning. We have to check if there
      * is already a combo that ends the word that is required. That way it wont keep fighting each other
      */
-    public void modifyEnd(StringBuilder word, String combo)throws FileNotFoundException{
-        units.scanUnitPair();
-        ArrayList<UnitPairRules> unitRules = units.unitPairs;
+    public void modifyEnd(StringBuilder word, String combo){
         
         StringBuilder newRandomReplace = randomWord(combo.length());
         int start = word.indexOf(combo);
-        int end = word.lastIndexOf(combo);
-        Boolean keepCombo =false;
+        int end = start + combo.length();
+        Boolean keepCombo =true;
         
-        for(int i=0;i<unitRules.size();i++){
-            String currentCombo = unitRules.get(i).combo;
+        for(int i=0;i<units.unitPairs.size();i++){
+            String currentCombo = units.unitPairs.get(i).combo;
             String givenWord = word.toString();//Changing the stringbuilder to string so we can use function endsWith
             
-            if((unitRules.get(i).mustEnd==true)&&(givenWord.endsWith(currentCombo))&&(currentCombo!=combo)){
+            if((units.unitPairs.get(i).mustEnd==true)&&(givenWord.endsWith(currentCombo))&&(currentCombo!=combo)){
                  word.replace(start, end, newRandomReplace.toString());
-                
+                keepCombo = false;
             }
-            else{
-                keepCombo = true;
-            }
+            
     }
         if(keepCombo == true){
             word.delete(start,end);

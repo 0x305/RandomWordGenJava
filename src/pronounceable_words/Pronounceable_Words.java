@@ -14,14 +14,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
 import java.util.ArrayList;
-/**
- *
- 
- */
+
+
+
 public class Pronounceable_Words  {
 
-   
-  
        
     public static void main(String[] args)throws FileNotFoundException{
       //Testing stuff
@@ -29,16 +26,28 @@ public class Pronounceable_Words  {
          StringBuilder myName = new StringBuilder();
             
             myName.append("aanblonda");
-            String test = "tester";
-     myName.replace(0,test.length() , test);
-     if(test.endsWith("ter")){
-        System.out.println("yerrrr");
-        System.exit(0);}
-        Units testscan = new Units(); 
-        Generator generator = new Generator();
-        generator.quicktest(myName);
-        System.exit(0);
-        generator.checkWord(myName);
+            String test = "lon";
+     int start = myName.indexOf("lon");
+     int end = start + test.length();
+     myName.delete(start, end);
+        System.out.println(myName);
+        
+        
+     Generator generator = new Generator();
+    // generator.testJOption();
+    // System.exit(0);
+    generator.setConditions();
+     StringBuilder originalWord = generator.randomWord(6);
+        System.out.println("Original Word: "+ originalWord);
+        
+        generator.checkWord(originalWord);
+        
+     System.exit(0);
+        
+        
+       
+   
+        
         
         
        

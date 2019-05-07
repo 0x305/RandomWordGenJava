@@ -5,10 +5,7 @@
  */
 package pronounceable_words;
 
-/**
- *
- * 
- */
+
 public class UnitPairRules {
     String combo;
     Boolean mustBegin;
