@@ -27,17 +27,19 @@ public class Pronounceable_Words  {
             
             myName.append("aanblonda");
             String test = "lon";
-     int start = myName.indexOf("lon");
+     int start = myName.indexOf("aanb");
+        System.out.println(start);
+        //System.exit(0);
      int end = start + test.length();
      myName.delete(start, end);
-        System.out.println(myName);
+       // System.out.println(myName);
         
         
      Generator generator = new Generator();
     // generator.testJOption();
     // System.exit(0);
     generator.setConditions();
-     StringBuilder originalWord = generator.randomWord(6);
+     StringBuilder originalWord = generator.randomWord(8);
         System.out.println("Original Word: "+ originalWord);
         
         generator.checkWord(originalWord);

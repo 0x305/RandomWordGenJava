@@ -11,6 +11,11 @@ public class Generator    {
       
  Units units = new Units();
  
+ Boolean beginFixed = false;
+ Boolean notBeginFixed = false;
+ Boolean endFixed = false;
+ Boolean notEndFixed = false;
+ 
 
    /**
     * This method will create a random char and pass it when called. 
@@ -78,29 +83,35 @@ public class Generator    {
      * Then each boolean is checked and its corresponding methods are called.
      */
     public void checkWord(StringBuilder word){
-        
+        String givenWord = word.toString();
        
         for(int i=0; i<units.unitPairs.size();i++){
             String wordCombo = units.unitPairs.get(i).combo;
             
             if(word.toString().contains(wordCombo)){//StringBuilder doesnt have .contains() but we can use toString() to interpret it as a String first
-                if(units.unitPairs.get(i).mustBegin == true){
+                if((units.unitPairs.get(i).mustBegin == true)&&(beginFixed==false)){
                     
                     modifyBegin(word,wordCombo);
                     
             }
-                if(units.unitPairs.get(i).mustNotBegin==true){
-                    
-                    modifyNotBegin(word,wordCombo);
+                if((units.unitPairs.get(i).mustNotBegin==true)){
+                    if(word.indexOf(wordCombo)==0){
+                        modifyNotBegin(word,wordCombo);
                 }
                 
             }
-            
+                if((units.unitPairs.get(i).mustEnd == true)&&(!givenWord.endsWith(wordCombo))){
+                   modifyEnd(word,wordCombo); 
+                }
+                if((units.unitPairs.get(i).mustNotEnd == true)&&(givenWord.endsWith(wordCombo))){
+                    modifyNotEnd(word, wordCombo);
+                }
+                   
         }
-        System.out.println(word);
+      
 }
-    
-    
+    System.out.println(word);
+    }
     /**
      * 
      * @param word
@@ -132,6 +143,7 @@ public class Generator    {
             if(keepCombo== true){
                 word.delete(start, end);//remove where the combo was
                 word.insert(0, combo);//add combo to beginning
+                beginFixed = true;
             }
         }
         
@@ -150,10 +162,10 @@ public class Generator    {
      */
     public void modifyNotBegin(StringBuilder word, String combo){
         
-        if(word.indexOf(combo)==0){
+        
             StringBuilder newRandomReplace = randomWord(combo.length());
             word.replace(0, combo.length(), newRandomReplace.toString());
-            }
+           
         checkWord(word);
         }
     /**
@@ -161,7 +173,7 @@ public class Generator    {
      * @param word
      * @param combo
      * 
-     * This method will do the same thing as modify beginning. We have to check if there
+     * This method is for the mustEnd condition. It will do the same thing as modify beginning. We have to check if there
      * is already a combo that ends the word that is required. That way it wont keep fighting each other
      */
     public void modifyEnd(StringBuilder word, String combo){
@@ -184,8 +196,20 @@ public class Generator    {
         if(keepCombo == true){
             word.delete(start,end);
             word.append(combo);
+            
         }
         checkWord(word);
+    }
+    
+    public void modifyNotEnd(StringBuilder word, String combo){
+        
+        StringBuilder newRandomReplace = randomWord(combo.length());
+       
+        int start = word.indexOf(combo);
+        int end = start + combo.length();
+        
+        word.replace(start, end, newRandomReplace.toString());
+        
     }
 }
 
