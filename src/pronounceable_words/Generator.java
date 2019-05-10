@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 public class Generator    {
       
  Units units = new Units();
+ Syllables syllables = new Syllables();
  
  Boolean beginFixed = false;
  Boolean notBeginFixed = false;
@@ -47,7 +48,6 @@ public class Generator    {
         
         }
         
-       
         return word;
     }
 
@@ -55,25 +55,6 @@ public class Generator    {
          units.scanUnitPair();
     }
     
-    //The plan is to generate a random word, then iterate through the unit array list
-    //and see if the string contains any of the combos. From there, you will use all the booleans
-    //from the indexed combo. Methods will be made to modify for each boolean and they will
-    //be called if needed. The string will then be checked again and process will repeat. 
-   
-    public void testJOption()throws FileNotFoundException{
-       //int wordLength = Integer.parseInt( JOptionPane.showInputDialog("Type word length"));
-        
-        
-      StringBuilder testing = randomWord(7);
-       units.scanUnitPair();
-       
-        System.out.println(units.unitPairs.size());
-        System.exit(0);
-       
-       JOptionPane.showMessageDialog(null, testing );
-       System.exit(0);
-       //testJOption();
-    }
     
     /**
      * 
@@ -82,7 +63,7 @@ public class Generator    {
      * so we can pass the random word from the other methods that required StringBuilder.
      * Then each boolean is checked and its corresponding methods are called.
      */
-    public void checkWord(StringBuilder word){
+    public void checkWord(StringBuilder word)throws FileNotFoundException{
         String givenWord = word.toString();
        
         for(int i=0; i<units.unitPairs.size();i++){
@@ -106,7 +87,10 @@ public class Generator    {
                 if((units.unitPairs.get(i).mustNotEnd == true)&&(givenWord.endsWith(wordCombo))){
                     modifyNotEnd(word, wordCombo);
                 }
-                   
+                if((units.unitPairs.get(i).needsBreak == true)&&(checkIfBreak(word,wordCombo)==false)){
+                    modifyMustBreak(word,wordCombo);
+                    
+                }   
         }
       
 }
@@ -122,7 +106,7 @@ public class Generator    {
      * We must use StringBuilder because the .delete and .insert only works with stringBuilder
      * 
      */
-    public void modifyBegin(StringBuilder word, String combo){
+    public void modifyBegin(StringBuilder word, String combo)throws FileNotFoundException{
        //check if there is already a combo that is in first index
        
         StringBuilder newRandomReplace = randomWord(combo.length());
@@ -160,7 +144,7 @@ public class Generator    {
      * This method will replace the beginning of the word with a new random combination.
      * Notice how we need to use toString to interpret the given stringBuilder as a string
      */
-    public void modifyNotBegin(StringBuilder word, String combo){
+    public void modifyNotBegin(StringBuilder word, String combo)throws FileNotFoundException{
         
         
             StringBuilder newRandomReplace = randomWord(combo.length());
@@ -176,7 +160,7 @@ public class Generator    {
      * This method is for the mustEnd condition. It will do the same thing as modify beginning. We have to check if there
      * is already a combo that ends the word that is required. That way it wont keep fighting each other
      */
-    public void modifyEnd(StringBuilder word, String combo){
+    public void modifyEnd(StringBuilder word, String combo)throws FileNotFoundException{
         
         StringBuilder newRandomReplace = randomWord(combo.length());
         int start = word.indexOf(combo);
@@ -201,7 +185,7 @@ public class Generator    {
         checkWord(word);
     }
     
-    public void modifyNotEnd(StringBuilder word, String combo){
+    public void modifyNotEnd(StringBuilder word, String combo)throws FileNotFoundException{
         
         StringBuilder newRandomReplace = randomWord(combo.length());
        
@@ -210,7 +194,44 @@ public class Generator    {
         
         word.replace(start, end, newRandomReplace.toString());
         
+        checkWord(word);
     }
-}
+    
+    public Boolean checkIfBreak(StringBuilder word, String combo)throws FileNotFoundException{
+       
+        
+        Boolean alreadyBreaks = false;
+     
+        int comboStart = word.indexOf(combo);
+        int comboEnd = word.indexOf(combo) + combo.length();
+       
+        String wordBefore = word.substring(0,comboStart );
+        String wordAfter = word.substring(comboEnd, word.length());
+        
+        Boolean syllableBefore = syllables.beforeSyllable(wordBefore);
+        Boolean syllableAfter = syllables.afterSyllable(wordAfter);
+        
+        if((syllableBefore==true)&&(syllableAfter==true)){
+            alreadyBreaks = true;
+        }
+       
+    
+        return alreadyBreaks;
+    }
+    
+    public void modifyMustBreak(StringBuilder word, String combo)throws FileNotFoundException {
+        
+       StringBuilder newRandomReplace = randomWord(combo.length());
+       
+        int start = word.indexOf(combo);
+        int end = start + combo.length();
+        
+        word.replace(start, end, newRandomReplace.toString());
+        
+        checkWord(word);
+        
+        
+    }
 
+}
 

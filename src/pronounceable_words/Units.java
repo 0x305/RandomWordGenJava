@@ -15,7 +15,10 @@ import java.util.ArrayList;
  */
 public class Units {
     
-    char[] vowels = new char[]{'a','e','i','o','u'};
+    String[] legalUnits = new String[]{"a","f","k","p","v","ch","th","b","g","l","r","w","gh","wh",
+                                       "c","h","m","s","x","ph","qu","d","i","n","t","y","rh","ck",
+                                       "e","j","o","u","z","sh"};
+    
     public static ArrayList<UnitPairRules> unitPairs = new ArrayList<UnitPairRules>();
    
     
