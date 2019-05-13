@@ -25,39 +25,51 @@ public class Pronounceable_Words  {
          
          StringBuilder myName = new StringBuilder();
             
-            myName.append("aanblonda");
+            myName.append("aanbxlonda");
             String test = "lon";
      int start = myName.indexOf("aanb");
       Generator generator = new Generator();
-     // Boolean bruh = generator.checkIfBreak(myName, "nb");
-       // System.out.println(bruh);
-       // System.exit(0);
-//      generator.modifyMustBreak(myName, "aanl");
-     // System.exit(0);
-       // System.out.println(start);
+     
        
         Syllables testSyllable = new Syllables();
        Boolean testbool = generator.checkIfBreak(myName, "nd");
-       String nope = "aanbleo";
+       String nope = "aanbleozzzz";
        if(nope.endsWith("bleo")){
            System.out.println("bro");
        }
-       Boolean yea = testSyllable.afterSyllable("blaaon");
-        System.out.println(yea);
-        //System.exit(0);
-     int end = start + test.length();
-     myName.delete(start, end);
-       // System.out.println(myName);
-        
-        
+       Boolean yet = testSyllable.afterSyllable("");
+       // System.out.println(yet);
+        Boolean yerr = generator.checkIfBreak(myName, "lo");
+        Boolean yutt = testSyllable.beforeSyllable("xgggx");
+        generator.checkWord(generator.randomWord(5));
+        System.out.println(yutt);
+        System.out.println(yerr);
+        String azz = "zozz";
+        if(nope.endsWith(azz)){
+            System.out.println("yurdd");
+        }
+       //System.exit(0);
+       String combo = "on";
+    int comboStart = myName.indexOf(combo);
+        int comboEnd = myName.indexOf(combo) + combo.length();
+       
+        String wordBefore = myName.substring(0,comboStart );
+        String wordAfter = myName.substring(comboEnd, myName.length());
+        System.out.println(wordAfter);
+     // System.exit(0);
+     
+     
     
-    // generator.testJOption();
-    // System.exit(0);
     generator.setConditions();
-     StringBuilder originalWord = generator.randomWord(8);
+     StringBuilder originalWord = generator.randomWord(6);
         System.out.println("Original Word: "+ originalWord);
+        StringBuilder qTest = new StringBuilder();
+        qTest.append("qrttyq");
+        int g = qTest.toString().indexOf('y');
+        System.out.println(qTest.toString().length());
         
-        generator.checkWord(originalWord);
+       //System.exit(0);
+        generator.checkWord(qTest);
         
      System.exit(0);
         

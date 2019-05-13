@@ -46,7 +46,7 @@ public class Syllables {
     }
     
     public Boolean beforeSyllable(String word)throws FileNotFoundException{
-        
+        //tested hella times. confirmed dont touch
         Boolean beforeSyllable = false;
         if(syllables.exists()){
             try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(syllables), encoding))) {
@@ -55,10 +55,12 @@ public class Syllables {
             while ((line != null)) {
                 String syllable   = line.replaceAll("[^A-Za-z]+", "");
                 
-                if(word.endsWith(syllable)){
+                
+                    if(word.endsWith(syllable)){
                     beforeSyllable = true;
                    
                 }
+                
                 line = br.readLine();
                 
         }
@@ -70,7 +72,7 @@ public class Syllables {
     }
     
     public Boolean afterSyllable(String word)throws FileNotFoundException{
-        
+        //tested hella times. works dont touch
        Boolean afterSyllable = false;
         if(syllables.exists()){
             try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(syllables), encoding))) {

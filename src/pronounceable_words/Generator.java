@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.io.FileNotFoundException;
 
 
+
 public class Generator    {
       
  Units units = new Units();
@@ -65,7 +66,22 @@ public class Generator    {
      */
     public void checkWord(StringBuilder word)throws FileNotFoundException{
         String givenWord = word.toString();
-       
+       int length = givenWord.length();
+      
+        for(int i=0;i<length;i++){
+           
+            if(givenWord.charAt(i)=='q'){
+                
+                if((i+1)!=length){//If Q is not the last char set next char u
+                    word.setCharAt(i+1, 'u');
+            }
+                else{//if q is last letter,just replace it with random
+                   word.setCharAt(i, randomChar());
+                    
+                }
+            }
+        }
+        
         for(int i=0; i<units.unitPairs.size();i++){
             String wordCombo = units.unitPairs.get(i).combo;
             
@@ -201,12 +217,21 @@ public class Generator    {
        
         
         Boolean alreadyBreaks = false;
+        String wordBefore="";
+        String wordAfter="";
+        String givenWord = word.toString();
      
         int comboStart = word.indexOf(combo);
-        int comboEnd = word.indexOf(combo) + combo.length();
+        int comboEnd = comboStart + combo.length();
        
-        String wordBefore = word.substring(0,comboStart );
-        String wordAfter = word.substring(comboEnd, word.length());
+        if(comboStart!=0){
+        
+            wordBefore = word.substring(0,comboStart );
+        }
+        
+        if(comboEnd!=givenWord.length()-1){
+            wordAfter = word.substring(comboEnd, word.length());
+        }
         
         Boolean syllableBefore = syllables.beforeSyllable(wordBefore);
         Boolean syllableAfter = syllables.afterSyllable(wordAfter);
