@@ -61,16 +61,22 @@ public class Pronounceable_Words  {
      
     
     generator.setConditions();
-     StringBuilder originalWord = generator.randomWord(6);
+     StringBuilder originalWord = generator.randomWord(5);
         System.out.println("Original Word: "+ originalWord);
         StringBuilder qTest = new StringBuilder();
         qTest.append("qrttyq");
         int g = qTest.toString().indexOf('y');
-        System.out.println(qTest.toString().length());
         
+        generator.checkWord(originalWord);
+       
+        System.out.println("Final Word: " + generator.finalWord.toString());
+       System.exit(0);
+       
        //System.exit(0);
-        generator.checkWord(qTest);
-        
+       String testCombos = originalWord.toString().substring(4,6);
+       
+        generator.checkIfBreak(originalWord, testCombos);
+        System.out.println(testCombos);
      System.exit(0);
         
         
