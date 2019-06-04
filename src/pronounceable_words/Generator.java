@@ -15,6 +15,7 @@ public class Generator    {
  
  StringBuilder finalWord;
  
+ 
  Boolean beginFixed = false;
  Boolean notBeginFixed = false;
  Boolean endFixed = false;
@@ -125,12 +126,14 @@ public class Generator    {
                     modifyNotEnd(word, wordCombo);
                 }
                 
-                
+                else{
+                    finalWord = word;
+                }
                 
         }
-      
+     
 }
-    finalWord = word;
+    
     
     }
     /**

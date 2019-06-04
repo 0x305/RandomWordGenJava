@@ -61,7 +61,7 @@ public class Pronounceable_Words  {
      
     
     generator.setConditions();
-     StringBuilder originalWord = generator.randomWord(5);
+     StringBuilder originalWord = generator.randomWord(8);
         System.out.println("Original Word: "+ originalWord);
         StringBuilder qTest = new StringBuilder();
         qTest.append("qrttyq");
@@ -69,7 +69,7 @@ public class Pronounceable_Words  {
         
         generator.checkWord(originalWord);
        
-        System.out.println("Final Word: " + generator.finalWord.toString());
+        System.out.println("Final Word: " + generator.finalWord.toString() );
        System.exit(0);
        
        //System.exit(0);
