@@ -29,13 +29,13 @@ public class Pronounceable_Words  {
     generator.setConditions();
      
         
-        PrintWriter writer = new PrintWriter("5Letter_Generated_Words(1000).txt");
+        PrintWriter writer = new PrintWriter("4Letter_Generated_Words(1000)v2.txt");
 ;
 
         try {
             for(int i=0; i<1000;i++){
                 
-            StringBuilder originalWord = generator.randomWord(5);
+            StringBuilder originalWord = generator.randomWord(4);
             generator.checkWord(originalWord);
             
                 String line = generator.finalWord.toString();
