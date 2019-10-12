@@ -10,7 +10,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.util.HashSet;
 /**
  *
  * 
@@ -20,21 +20,19 @@ public class Syllables {
     File syllables = new File("Syllables (15,831 Verbal).txt");
     
     String encoding = "Cp1250";
-    String syllable;
     
-    public Boolean scanSyllables(String word) throws FileNotFoundException{
-        
-        Boolean isSyllable = false;
+    
+    HashSet<String> syllable = new HashSet<>();
+    
+    public void scanSyllables() throws FileNotFoundException{
        
         if (syllables.exists()) {
             try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(syllables), encoding))) {
             String line = br.readLine();
             
             while ((line != null)) {
-                if(word.contains(line)){
-                    isSyllable = true;
-                    
-                }
+                
+                syllable.add(line);
                 line = br.readLine();
         }
     }catch (IOException e) {
@@ -42,55 +40,27 @@ public class Syllables {
     }
         }
         
-        return isSyllable;
     }
     
     public Boolean beforeSyllable(String word)throws FileNotFoundException{
-        //tested hella times. confirmed dont touch
-        Boolean beforeSyllable = false;
-        if(syllables.exists()){
-            try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(syllables), encoding))) {
-            String line = br.readLine();
-            
-            while ((line != null)) {
-                String syllable   = line.replaceAll("[^A-Za-z]+", "");
-                
-                
-                    if(word.endsWith(syllable)){
-                    beforeSyllable = true;
-                   
-                }
-                
-                line = br.readLine();
-                
+        
+        for(String syll: syllable){
+            if(word.endsWith(syll)){
+                return true;
+            }
         }
-    }catch (IOException e) {
-        e.printStackTrace();
-    }
-        }
-        return beforeSyllable;
+               
+        return false;
     }
     
     public Boolean afterSyllable(String word)throws FileNotFoundException{
-        //tested hella times. works dont touch
-       Boolean afterSyllable = false;
-        if(syllables.exists()){
-            try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(syllables), encoding))) {
-            String line = br.readLine();
+        
+        for(String syll: syllable){
             
-            while ((line != null)) {
-                String syllable = line.replaceAll("[^A-Za-z]+", "");
-                
-                if(word.indexOf(syllable)==0){
-                    afterSyllable = true;
-                    
-                }
-                line = br.readLine();
+            if(word.indexOf(syll)==0){
+               return true;
+           }
         }
-    }catch (IOException e) {
-        e.printStackTrace();
-    }
-        }
-        return afterSyllable;
+        return false;
     }
 }

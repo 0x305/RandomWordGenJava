@@ -7,7 +7,7 @@ package pronounceable_words;
 
 
 public class UnitPairRules {
-    String combo;
+   
     Boolean mustBegin;
     Boolean mustNotBegin;
     Boolean needsBreak;
@@ -15,9 +15,9 @@ public class UnitPairRules {
     Boolean mustEnd;
     Boolean mustNotEnd;
     
-    UnitPairRules(String combo, Boolean mustBegin, Boolean mustNotBegin, Boolean needsBreak,
+    UnitPairRules(Boolean mustBegin, Boolean mustNotBegin, Boolean needsBreak,
                   Boolean needsVowelPrefix, Boolean mustEnd, Boolean mustNotEnd){
-        this.combo = combo;
+        
         this.mustBegin= mustBegin;
         this.mustNotBegin = mustNotBegin;
         this.needsBreak = needsBreak;
@@ -26,12 +26,7 @@ public class UnitPairRules {
         this.mustNotEnd = mustNotEnd;
     }
    
-    public void setCombo(){
-        this.combo = combo;
-    }
-    public String getCombo(){
-        return combo;
-    }
+    
     
     public void setMustBegin(){
         this.mustBegin = mustBegin;

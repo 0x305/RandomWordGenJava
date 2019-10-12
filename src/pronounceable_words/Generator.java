@@ -15,7 +15,6 @@ public class Generator    {
  
  StringBuilder finalWord;
  
- 
  Boolean beginFixed = false;
  Boolean notBeginFixed = false;
  Boolean endFixed = false;
@@ -57,6 +56,7 @@ public class Generator    {
 
     public void setConditions()throws FileNotFoundException{
          units.scanUnitPair();
+         syllables.scanSyllables();
     }
     
     
@@ -97,44 +97,37 @@ public class Generator    {
         }
         
         
-        for(int i=0; i<units.unitPairs.size();i++){
-            String wordCombo = units.unitPairs.get(i).combo;
-            
-            if(word.toString().contains(wordCombo)){//StringBuilder doesnt have .contains() but we can use toString() to interpret it as a String first
+        for(String pair: units.unitPairs.keySet()){
+           
+            if(word.toString().contains(pair)){
                
-                //needsBreak MUST go first. Because if word changes by the time it gets to it, combo wont be there and indexes will cause error
-                //You can also change them to else if's
-                if((units.unitPairs.get(i).needsBreak == true)&&(checkIfBreak(word,wordCombo)==false)){
-                   modifyMustBreak(word,wordCombo);
+                if((units.unitPairs.get(pair).needsBreak == true)&&(checkIfBreak(word,pair)==false)){
+                   modifyMustBreak(word,pair);
                           
                 }   
-                else if((units.unitPairs.get(i).mustBegin == true)&&(beginFixed==false)){
+                else if((units.unitPairs.get(pair).mustBegin == true)&&(beginFixed==false)){
                     
-                    modifyBegin(word,wordCombo);
+                    modifyBegin(word, pair);
                     
             }
-                else if((units.unitPairs.get(i).mustNotBegin==true)){
-                    if(word.indexOf(wordCombo)==0){
-                        modifyNotBegin(word,wordCombo);
+                else if((units.unitPairs.get(pair).mustNotBegin==true)){
+                    if(word.indexOf(pair)==0){
+                        modifyNotBegin(word,pair);
                 }
                 
             }
-                else if((units.unitPairs.get(i).mustEnd == true)&&(!givenWord.endsWith(wordCombo))){
-                   modifyEnd(word,wordCombo); 
+                else if((units.unitPairs.get(pair).mustEnd == true)&&(!givenWord.endsWith(pair))){
+                   modifyEnd(word,pair); 
                 }
-                else if((units.unitPairs.get(i).mustNotEnd == true)&&(givenWord.endsWith(wordCombo))){
-                    modifyNotEnd(word, wordCombo);
+                else if((units.unitPairs.get(pair).mustNotEnd == true)&&(givenWord.endsWith(pair))){
+                    modifyNotEnd(word, pair);
                 }
                 
                 else{
                     finalWord = word;
                 }
-                
         }
-     
 }
-    
-    
     }
     /**
      * 
@@ -154,23 +147,22 @@ public class Generator    {
         int end = start + combo.length();
         Boolean keepCombo =true;
         
-        for(int i=0;i<units.unitPairs.size();i++){
-            String currentCombo = units.unitPairs.get(i).combo;
+        for(String pair: units.unitPairs.keySet()){
+            
             //if there is already a mustBegin combo that begins the word, the other combo will just be replaced
             //with another random string. This prevents recursion of fighting for who begins word
-            if((units.unitPairs.get(i).mustBegin==true)&&(word.indexOf(currentCombo)==0)&&(currentCombo!=combo)){
+            if((units.unitPairs.get(pair).mustBegin==true)&&(word.indexOf(pair)==0)&&(pair!=combo)){
                 word.replace(start, end, newRandomReplace.toString());
                 keepCombo=false;
             }
             
             
             if(keepCombo== true){
-                word.delete(start, end);//remove where the combo was
-                word.insert(0, combo);//add combo to beginning
+                word.delete(start, end);
+                word.insert(0, combo);
                 beginFixed = true;
             }
         }
-        
         
        checkWord(word); //checking the word again
         
@@ -207,11 +199,11 @@ public class Generator    {
         int end = start + combo.length();
         Boolean keepCombo =true;
         
-        for(int i=0;i<units.unitPairs.size();i++){
-            String currentCombo = units.unitPairs.get(i).combo;
-            String givenWord = word.toString();//Changing the stringbuilder to string so we can use function endsWith
+        for(String pair: units.unitPairs.keySet()){
+           
+            String givenWord = word.toString();
             
-            if((units.unitPairs.get(i).mustEnd==true)&&(givenWord.endsWith(currentCombo))&&(currentCombo!=combo)){
+            if((units.unitPairs.get(pair).mustEnd==true)&&(givenWord.endsWith(pair))&&(pair!=combo)){
                  word.replace(start, end, newRandomReplace.toString());
                 keepCombo = false;
             }
@@ -279,8 +271,6 @@ public class Generator    {
         word.replace(start, end, newRandomReplace.toString());
         
         checkWord(word);
-        
-        
     }
     
     public void swapConsecutiveCombo(StringBuilder word, int start, int end)throws FileNotFoundException{
